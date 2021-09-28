@@ -61,6 +61,16 @@ class Player():
     
     def receive_card(self, card:Card) -> None:
         self.cards.append(card)
+    
+    def view_all_cards(self) -> None:
+        [print(f"{self.cards.index(x)}번 카드: {x.shape} {x.number}") for x in self.cards]
+
+    @property
+    def score(self) -> int:
+        return 0
+    
+    def action(self):
+        return
 
 class Dealer(Player):
 
@@ -99,6 +109,7 @@ class Card():
 
     
 def game(dealer: Dealer, player: Player):
+    money = 0
 
     cards = dealer.set_up_cards()
     
@@ -107,15 +118,22 @@ def game(dealer: Dealer, player: Player):
     def hand_out_cards():
         player.receive_card(dealer.hand_out_card(cards))
         dealer.receive_card(dealer.hand_out_card(cards))
+        player.view_all_cards()
 
     for _ in range(3):
         hand_out_cards()
 
     for _ in range(4):
         hand_out_cards()
-        player.action()
-        dealer.action()
-
+        betting = player.action()
+        betting, sign = dealer.action(betting)
+        print(sign)
+        money += betting
+    
+    if player.score >= dealer.score:
+        player.money += money
+    else:
+        dealer.money += money
 
 def main():
     name = input("당신의 이름은?: ")
