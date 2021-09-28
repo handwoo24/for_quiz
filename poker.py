@@ -30,24 +30,20 @@ class Player():
     def money(self, money) -> None:
         self._money = money
     
-    def action_call(self, money) -> int:
-        if self.money <= money:
-            return self.action_all_in(self)
-        else:
-            self.money -= money
-        return money
-    
-    def action_check(self) -> int:
+    def _action_check(self) -> int:
         return 0
     
-    def action_all_in(self) -> int:
+    def _action_all_in(self) -> int:
+        print("올 인!")
         money = self.money
         self.money = 0 
         return money
     
-    def action_raise(self, money) -> int:
+    def _action_raise(self) -> int:
+        money = input("금액을 입력하세요: ")
         self.money -= money
         if self.money <= 0:
+            print("소지 금액을 초과하여 올 인합니다.")
             return self.action_all_in(self)
         return money
     
@@ -70,7 +66,13 @@ class Player():
         return 0
     
     def action(self):
-        return
+        action_key = input("1: check, 2: raise, 3: all in")
+        if not action_key in [1,2,3]:
+            action_key = 1
+        else:
+            action_key -= 1
+        actions = [self.action_check(), self.action_raise(), self.action_all_in()]
+        return actions[action_key]
 
 class Dealer(Player):
 
