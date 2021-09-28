@@ -6,7 +6,10 @@ import random
 class Dealer():
 
     def shuffle() -> Card:
-        return Card()
+        shapes = ["spade", "heart", "diamond", "clover"]
+        card_shape = shapes[random.randint(3)]
+        card_number = random.randrange(1,13)
+        return Card(card_shape, card_number)
 
 class Card():
     _shape: str
