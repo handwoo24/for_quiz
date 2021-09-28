@@ -96,30 +96,34 @@ class Card():
     @property
     def number(self) -> int:
         return self._number
-    
 
-dealer = Dealer()
-
-player = Player()
     
 def game(dealer: Dealer, player: Player):
-
-    money = 0
 
     cards = dealer.set_up_cards()
     
     dealer.shuffle(cards)
 
-    player.receive_card(dealer.hand_out_card(cards))
+    def hand_out_cards():
+        player.receive_card(dealer.hand_out_card(cards))
+        dealer.receive_card(dealer.hand_out_card(cards))
 
-    dealer.receive_card(dealer.hand_out_card(cards))
+    for _ in range(3):
+        hand_out_cards()
+
+    for _ in range(4):
+        hand_out_cards()
+        player.action()
+        dealer.action()
 
 
+def main():
+    name = input("당신의 이름은?: ")
+    player = Player(name)
+    dealer = Dealer()
 
-
-
-
-
+    while dealer.money == 0 or player.money == 0:
+        game(dealer, player)
 
 
 if __name__ == "__main__":
